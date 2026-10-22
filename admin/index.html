@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ka">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>PINEPOP — ადმინი</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍍</text></svg>" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Noto+Sans+Georgian:wdth,wght@62.5..100,100..900&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+    <link rel="stylesheet" href="./admin.css" />
+  </head>
+  <body>
+    <!-- LOGIN -->
+    <main class="login" id="loginView" hidden>
+      <form class="card login__card" id="loginForm">
+        <div class="logo">PINE<em>POP</em></div>
+        <p class="muted">ადმინ პანელი</p>
+        <label class="field">
+          <span>ლოგინი</span>
+          <input name="username" autocomplete="username" required />
+        </label>
+        <label class="field">
+          <span>პაროლი</span>
+          <input name="password" type="password" autocomplete="current-password" required />
+        </label>
+        <button class="btn" type="submit">შესვლა</button>
+        <p class="error" id="loginError" role="alert"></p>
+      </form>
+    </main>
+
+    <!-- APP -->
+    <div id="appView" hidden>
+      <header class="top">
+        <div class="logo">PINE<em>POP</em> <small>ადმინი</small></div>
+        <nav class="tabs" role="tablist">
+          <button role="tab" data-tab="orders" aria-selected="true">შეკვეთები</button>
+          <button role="tab" data-tab="products">გემოები და ფასები</button>
+          <button role="tab" data-tab="settings">პარამეტრები</button>
+          <button role="tab" data-tab="account">ანგარიში</button>
+        </nav>
+        <div class="top__right">
+          <a class="btn btn--ghost" href="/" target="_blank" rel="noopener">საიტი ↗</a>
+          <button class="btn btn--ghost" id="logoutBtn">გასვლა <span id="whoami" class="muted"></span></button>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- ORDERS -->
+        <section data-panel="orders">
+          <div class="panel-head">
+            <h1>შეკვეთები</h1>
+            <button class="btn btn--ghost" id="reloadOrders">განახლება</button>
+          </div>
+          <div class="summary" id="summary"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>კოდი</th>
+                  <th>თარიღი</th>
+                  <th>მომხმარებელი</th>
+                  <th>მისამართი</th>
+                  <th>შეკვეთა</th>
+                  <th>ჯამი</th>
+                  <th>სტატუსი</th>
+                </tr>
+              </thead>
+              <tbody id="orderRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- PRODUCTS -->
+        <section data-panel="products" hidden>
+          <div class="panel-head">
+            <h1>გემოები და ფასები</h1>
+            <p class="muted">ფერი ქილის შიგთავსს და საიტის აქცენტს ცვლის. გამორთული გემო საიტზე არ ჩანს.</p>
+          </div>
+          <div class="product-grid" id="productGrid"></div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section data-panel="settings" hidden>
+          <div class="panel-head">
+            <h1>პარამეტრები</h1>
+            <p class="muted">ყველაფერი, რაც აქ შეცვლი, საიტზე მაშინვე ჩანს (გვერდის განახლების შემდეგ).</p>
+          </div>
+          <form class="settings" id="settingsForm" novalidate>
+            <fieldset class="card">
+              <legend>ბრენდი</legend>
+              <div class="row-2">
+                <label class="field">
+                  <span>სახელი — სქელი ნაწილი</span>
+                  <input name="brandBold" maxlength="16" required />
+                </label>
+                <label class="field">
+                  <span>სახელი — დახრილი ნაწილი</span>
+                  <input name="brandItalic" maxlength="16" />
+                </label>
+              </div>
+              <p class="preview">საიტზე ასე გამოჩნდება: <span class="logo" id="brandPreview"></span></p>
+            </fieldset>
+
+            <fieldset class="card">
+              <legend>ქილა</legend>
+              <div class="row-2">
+                <label class="field">
+                  <span>მოცულობა (მლ)</span>
+                  <input name="jarSizeMl" type="number" min="50" max="5000" step="1" required />
+                </label>
+                <label class="field">
+                  <span>ინახება მაცივარში (დღე)</span>
+                  <input name="shelfLifeDays" type="number" min="1" max="365" step="1" required />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="card">
+              <legend>მიწოდება</legend>
+              <label class="field">
+                <span>ქალაქები <small>(მძიმით გამოყავი, მაგ. თბილისი, რუსთავი)</small></span>
+                <input name="deliveryCities" required />
+              </label>
+              <div class="row-2">
+                <label class="field">
+                  <span>მიწოდების ფასი ₾ <small>(0 = უფასო)</small></span>
+                  <input name="deliveryFee" type="number" min="0" max="200" step="0.5" required />
+                </label>
+                <label class="field">
+                  <span>მიწოდების დრო <small>(მაგ. იმავე დღეს)</small></span>
+                  <input name="deliveryTime" maxlength="40" required />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="card">
+              <legend>კონტაქტები <small class="muted">— ცარიელი ველი საიტზე არ ჩანს</small></legend>
+              <label class="field">
+                <span>ტელეფონი / WhatsApp</span>
+                <input name="phone" type="tel" placeholder="599 12 34 56" />
+              </label>
+              <div class="row-2">
+                <label class="field">
+                  <span>Facebook</span>
+                  <input name="facebook" placeholder="https://facebook.com/…" />
+                </label>
+                <label class="field">
+                  <span>TikTok</span>
+                  <input name="tiktok" placeholder="https://tiktok.com/@…" />
+                </label>
+              </div>
+              <label class="field">
+                <span>Instagram</span>
+                <input name="instagram" placeholder="https://instagram.com/…" />
+              </label>
+            </fieldset>
+
+            <div class="actions">
+              <button class="btn" type="submit">შენახვა</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ACCOUNT -->
+        <section data-panel="account" hidden>
+          <div class="panel-head">
+            <h1>ანგარიში</h1>
+            <p class="muted">ცვლილებისთვის საჭიროა მიმდინარე პაროლი. ახალი პაროლის შემდეგ სხვა მოწყობილობებიდან გამოგიყვანს.</p>
+          </div>
+          <form class="card account" id="accountForm" novalidate>
+            <label class="field">
+              <span>ლოგინი</span>
+              <input name="username" autocomplete="username" required />
+            </label>
+            <label class="field">
+              <span>ახალი პაროლი <small>(თუ არ ცვლი — დატოვე ცარიელი)</small></span>
+              <input name="newPassword" type="password" autocomplete="new-password" minlength="8" />
+            </label>
+            <label class="field">
+              <span>გაიმეორე ახალი პაროლი</span>
+              <input name="repeatPassword" type="password" autocomplete="new-password" />
+            </label>
+            <label class="field">
+              <span>მიმდინარე პაროლი</span>
+              <input name="currentPassword" type="password" autocomplete="current-password" required />
+            </label>
+            <div class="actions">
+              <button class="btn" type="submit">შენახვა</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./admin.js"></script>
+  </body>
+</html>

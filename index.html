@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ka">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PINEPOP — ანანასი Kool-Aid-ის ფხვნილით</title>
+    <meta name="description" content="ახლად დაჭრილი ანანასი Kool-Aid-ის ფხვნილში — ალუბალი, ლურჯი ჟოლო, ყურძენი, ტროპიკული პუნში. საშუალო ქილა 20 ₾, უფასო მიწოდება თბილისში." />
+    <meta name="theme-color" content="#11150d" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍍</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&family=Noto+Sans+Georgian:wdth,wght@62.5..100,100..900&family=Noto+Serif+Georgian:wdth,wght@62.5..100,100..900&display=swap"
+    />
+  </head>
+  <body>
+    <div class="loader" id="loader" aria-hidden="true">
+      <div class="loader__word" data-brand="split">PINE<em>POP</em></div>
+      <div class="loader__count"><span id="loaderCount">0</span>%</div>
+    </div>
+
+    <canvas class="topo" id="topo" aria-hidden="true"></canvas>
+    <canvas class="webgl" id="webgl" aria-hidden="true"></canvas>
+    <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+    <header class="nav">
+      <a class="nav__logo" href="#top" data-scroll data-brand="split">PINE<em>POP</em></a>
+      <nav class="nav__links" aria-label="მთავარი მენიუ">
+        <a href="#process" data-scroll>პროცესი</a>
+        <a href="#flavors" data-scroll>გემოები</a>
+        <a href="#shop" data-scroll>შეკვეთა</a>
+      </nav>
+      <a class="nav__buy" href="#shop" data-scroll>
+        ყიდვა <span class="nav__count" id="navCount">0</span>
+      </a>
+    </header>
+
+    <main>
+      <!-- 1. HERO -->
+      <section class="hero" id="top" data-pose="0,-0.06,1,0" data-pose-m="0,0.2,0.72,0">
+        <h1 class="hero__giant" data-brand="giant">PINEPOP</h1>
+        <div class="hero__content">
+          <p class="eyebrow">ანანასი × Kool-Aid</p>
+          <p class="hero__lead">
+            ახლად დაჭრილი ანანასი, Kool-Aid-ის ფხვნილში ამოვლებული. ტკბილი, მჟავე და სრულიად ახალი გემო — ერთ ქილაში.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--accent" href="#shop" data-scroll>შეუკვეთე ახლავე</a>
+            <a class="btn btn--ghost" href="#process" data-scroll>როგორ მზადდება</a>
+          </div>
+        </div>
+        <div class="hero__scroll"><span></span>გადაახვიე</div>
+      </section>
+
+      <!-- 2. STATEMENT -->
+      <section class="intro" data-pose="0.5,0,0.9,0.7" data-pose-m="1.4,0.3,0.5,0.7">
+        <p class="eyebrow">რა არის <span data-brand="full">PINEPOP</span></p>
+        <p class="intro__statement" id="statement">
+          ავიღეთ ჩვეულებრივი ანანასი და ვაქციეთ ისეთ რამედ, რაც ჯერ არასდროს გაგისინჯავს.
+        </p>
+        <svg class="doodle" viewBox="0 0 900 200" fill="none" aria-hidden="true">
+          <path
+            d="M12 150 C 90 40, 170 30, 210 105 S 300 190, 360 110 S 470 10, 525 92 S 610 180, 680 76 C 715 22, 790 30, 772 98 C 756 160, 660 128, 708 74 S 830 46, 888 112"
+          />
+        </svg>
+        <div class="stats">
+          <div class="stat"><span class="stat__num" id="statFlavors" data-count="4">4</span><span class="stat__label">გემო</span></div>
+          <div class="stat"><span class="stat__num" id="statSize" data-count="720">720</span><span class="stat__label">მლ — ერთი ქილა</span></div>
+          <div class="stat"><span class="stat__num" id="statFee" data-count="0">0</span><span class="stat__label" id="statFeeLabel">₾ — მიწოდება თბილისში</span></div>
+        </div>
+      </section>
+
+      <!-- 3. PROCESS (sticky, scroll-driven) -->
+      <section class="process" id="process" data-pose="0.42,-0.04,1.05,0" data-pose-m="0,0.36,0.56,0">
+        <div class="process__sticky">
+          <div class="process__head">
+            <p class="eyebrow">პროცესი</p>
+            <div class="process__counter"><span id="stepNum">01</span> / 03</div>
+            <div class="process__bar"><span id="stepBar"></span></div>
+          </div>
+          <ol class="process__steps">
+            <li class="step is-active">
+              <span class="step__num">01</span>
+              <h2 class="step__title">ვჭრით</h2>
+              <p class="step__text">ვარჩევთ მწიფე ანანასს და ვჭრით პატარა ნაჭრებად — ყოველ დილით, ახლად.</p>
+            </li>
+            <li class="step">
+              <span class="step__num">02</span>
+              <h2 class="step__title">ვაყრით</h2>
+              <p class="step__text">
+                ნაჭრებს ვაყრით Kool-Aid-ის ფხვნილს. ფხვნილი ანანასის წვენს ერევა და ფერსაც და გემოსაც ცვლის.
+              </p>
+            </li>
+            <li class="step">
+              <span class="step__num">03</span>
+              <h2 class="step__title">ვხურავთ</h2>
+              <p class="step__text">ვავსებთ საშუალო ქილას, ვხურავთ და ვაცივებთ. მზადაა — პირდაპირ შენთან.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 4. MARQUEE -->
+      <section class="marquee" aria-hidden="true">
+        <div class="marquee__row" data-dir="1">
+          <div class="marquee__track">
+            <span>ტკბილი</span><i>✦</i><span>მჟავე</span><i>✦</i><span>ცივი</span><i>✦</i><span>ტროპიკული</span><i>✦</i>
+          </div>
+        </div>
+        <div class="marquee__row marquee__row--serif" data-dir="-1">
+          <div class="marquee__track">
+            <span>sweet</span><i>✦</i><span>sour</span><i>✦</i><span>tropical</span><i>✦</i><span data-brand="lower">pinepop</span><i>✦</i>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. FLAVOURS -->
+      <section class="flavors" id="flavors" data-pose="-0.48,0,0.95,-0.5" data-pose-m="0,0.58,0.52,-0.5">
+        <div class="flavors__inner">
+          <p class="eyebrow">გემოები</p>
+          <h2 class="section-title reveal">აირჩიე<br /><em>შენი ფერი</em></h2>
+          <div class="flavor-list" id="flavorList" role="radiogroup" aria-label="გემო"></div>
+        </div>
+      </section>
+
+      <!-- 6. SHOP -->
+      <section class="shop" id="shop" data-pose="-0.46,-0.02,1,0.4" data-pose-m="0,0.58,0.52,0.4">
+        <div class="shop__panel">
+          <p class="eyebrow">შეკვეთა</p>
+          <h2 class="section-title reveal">აიღე <em>ქილა</em></h2>
+          <ul class="shop__meta" id="shopMeta">
+            <li>720 მლ</li>
+            <li>ახლად დამზადებული</li>
+            <li>მაცივარში — 5 დღე</li>
+            <li>უფასო მიწოდება თბილისში</li>
+          </ul>
+          <div class="shop__rows" id="shopRows"></div>
+          <div class="shop__total"><span>სულ</span><strong id="shopTotal">0 ₾</strong></div>
+          <button class="btn btn--accent btn--block" id="buyBtn" disabled>ყიდვა</button>
+          <p class="shop__note" id="shopNote">მიწოდება თბილისში — უფასოდ, იმავე დღეს. გადახდა — მიტანისას (ნაღდი ან ბარათი).</p>
+        </div>
+      </section>
+
+      <!-- 7. FOOTER -->
+      <footer class="footer" data-pose="0,0.42,0.6,0" data-pose-m="0,0.45,0.45,0">
+        <div class="footer__giant" aria-hidden="true" data-brand="giant">PINEPOP</div>
+        <div class="footer__cols">
+          <div id="footerContact" hidden>
+            <p class="eyebrow">კონტაქტი</p>
+            <div id="footerContactLinks"></div>
+          </div>
+          <div id="footerSocial" hidden>
+            <p class="eyebrow">სოციალური</p>
+            <div id="footerSocialLinks"></div>
+          </div>
+          <div>
+            <p class="eyebrow">მიწოდება</p>
+            <p id="footerDelivery">თბილისში — უფასოდ, იმავე დღეს.</p>
+          </div>
+        </div>
+        <p class="footer__legal">
+          © 2026 <span data-brand="full">PINEPOP</span>. Kool-Aid არის Kraft Heinz-ის რეგისტრირებული სავაჭრო ნიშანი;
+          <span data-brand="full">PINEPOP</span> მასთან დაკავშირებული არ არის.
+        </p>
+      </footer>
+    </main>
+
+    <!-- CHECKOUT DRAWER -->
+    <div class="drawer" id="checkout" aria-hidden="true">
+      <div class="drawer__overlay" data-close></div>
+      <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+        <button class="drawer__close" data-close aria-label="დახურვა">×</button>
+
+        <form class="checkout" id="checkoutForm" novalidate>
+          <p class="eyebrow">შეკვეთის გაფორმება</p>
+          <h3 class="checkout__title" id="checkoutTitle">თითქმის <em>მზადაა</em></h3>
+          <ul class="checkout__summary" id="checkoutSummary"></ul>
+
+          <label class="field">
+            <span>სახელი და გვარი</span>
+            <input name="name" autocomplete="name" required maxlength="80" />
+          </label>
+          <label class="field">
+            <span>ტელეფონი</span>
+            <input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="5XX XX XX XX" required />
+          </label>
+          <label class="field" id="cityField" hidden>
+            <span>ქალაქი</span>
+            <select name="city" id="citySelect"></select>
+          </label>
+          <label class="field">
+            <span id="addressLabel">მისამართი თბილისში</span>
+            <input name="address" autocomplete="street-address" required maxlength="200" />
+          </label>
+          <label class="field">
+            <span>კომენტარი <small>(არასავალდებულო)</small></span>
+            <textarea name="note" rows="2" maxlength="500"></textarea>
+          </label>
+
+          <p class="checkout__pay"><span id="checkoutDelivery">🚚 მიწოდება თბილისში — უფასოდ, იმავე დღეს</span><br />💵 გადახდა მიტანისას — ნაღდი ან ბარათი</p>
+          <p class="checkout__error" id="checkoutError" role="alert"></p>
+          <button class="btn btn--accent btn--block" type="submit" id="checkoutSubmit">შეკვეთის დადასტურება</button>
+        </form>
+
+        <div class="success" id="checkoutSuccess" hidden>
+          <p class="eyebrow">შეკვეთა მიღებულია</p>
+          <h3 class="checkout__title">მადლობა! <em>🍍</em></h3>
+          <p>შეკვეთის ნომერი</p>
+          <p class="success__code" id="successCode"></p>
+          <p>მალე დაგიკავშირდებით მიწოდების დასაზუსტებლად.</p>
+          <button class="btn btn--ghost btn--block" data-close>დახურვა</button>
+        </div>
+      </aside>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
