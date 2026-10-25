@@ -48,7 +48,9 @@
         <a href="#process" data-scroll><span>პროცესი</span></a>
         <a href="#flavors" data-scroll><span>გემოები</span></a>
         <a href="#shop" data-scroll><span>შეკვეთა</span></a>
+        <a href="#faq" data-scroll><span>კითხვები</span></a>
       </nav>
+      <button class="menu__track" type="button" data-open-track>შეკვეთის სტატუსი →</button>
       <p class="menu__foot">ანანასი × Kool-Aid · <span id="menuDelivery">მიწოდება თბილისში</span></p>
     </div>
 
@@ -57,22 +59,22 @@
       <section class="hero" id="top" data-pose="0,-0.06,1,0" data-pose-m="0,0.2,0.72,0">
         <h1 class="hero__giant" data-brand="giant">PINEPOP</h1>
         <div class="hero__content">
-          <p class="eyebrow">ანანასი × Kool-Aid</p>
-          <p class="hero__lead">
+          <p class="eyebrow" data-text="hero.eyebrow">ანანასი × Kool-Aid</p>
+          <p class="hero__lead" data-text="hero.lead">
             ახლად დაჭრილი ანანასი, Kool-Aid-ის ფხვნილში ამოვლებული. ტკბილი, მჟავე და სრულიად ახალი გემო — ერთ ქილაში.
           </p>
           <div class="hero__actions">
-            <a class="btn btn--accent" href="#shop" data-scroll data-magnetic>შეუკვეთე ახლავე</a>
-            <a class="btn btn--ghost" href="#process" data-scroll data-magnetic>როგორ მზადდება</a>
+            <a class="btn btn--accent" href="#shop" data-scroll data-magnetic data-text="hero.cta">შეუკვეთე ახლავე</a>
+            <a class="btn btn--ghost" href="#process" data-scroll data-magnetic data-text="hero.cta2">როგორ მზადდება</a>
           </div>
         </div>
-        <div class="hero__scroll"><span></span>გადაახვიე</div>
+        <div class="hero__scroll"><span></span><strong data-text="hero.scroll">გადაახვიე</strong></div>
       </section>
 
       <!-- 2. STATEMENT -->
       <section class="intro" data-pose="0.5,0,0.9,0.7" data-pose-m="1.4,0.3,0.5,0.7">
-        <p class="eyebrow">რა არის <span data-brand="full">PINEPOP</span></p>
-        <p class="intro__statement" id="statement">
+        <p class="eyebrow" data-text="intro.eyebrow">რა არის PINEPOP</p>
+        <p class="intro__statement" id="statement" data-text="intro.statement">
           ავიღეთ ჩვეულებრივი ანანასი და ვაქციეთ ისეთ რამედ, რაც ჯერ არასდროს გაგისინჯავს.
         </p>
         <svg class="doodle" viewBox="0 0 900 200" fill="none" aria-hidden="true">
@@ -81,9 +83,9 @@
           />
         </svg>
         <div class="stats">
-          <div class="stat"><span class="stat__num" id="statFlavors" data-count="4">4</span><span class="stat__label">გემო</span></div>
-          <div class="stat"><span class="stat__num" id="statSize" data-count="720">720</span><span class="stat__label">მლ — ერთი ქილა</span></div>
-          <div class="stat"><span class="stat__num" id="statFee" data-count="0">0</span><span class="stat__label" id="statFeeLabel">₾ — მიწოდება თბილისში</span></div>
+          <div class="stat"><span class="stat__num" id="statFlavors" data-count="4">4</span><span class="stat__label" data-text="intro.stat1">გემო</span></div>
+          <div class="stat"><span class="stat__num" id="statSize" data-count="720">720</span><span class="stat__label" data-text="intro.stat2">მლ — ერთი ქილა</span></div>
+          <div class="stat"><span class="stat__num" id="statDays" data-count="5">5</span><span class="stat__label" data-text="intro.stat3">დღე — ინახება მაცივარში</span></div>
         </div>
       </section>
 
@@ -91,27 +93,27 @@
       <section class="process" id="process" data-pose="0.42,-0.04,1.05,0" data-pose-m="0,0.28,0.56,0">
         <div class="process__sticky">
           <div class="process__head">
-            <p class="eyebrow">პროცესი</p>
+            <p class="eyebrow" data-text="process.eyebrow">პროცესი</p>
             <div class="process__counter"><span id="stepNum">01</span> / 03</div>
             <div class="process__bar"><span id="stepBar"></span></div>
           </div>
           <ol class="process__steps">
             <li class="step is-active">
               <span class="step__num">01</span>
-              <h2 class="step__title">ვჭრით</h2>
-              <p class="step__text">ვარჩევთ მწიფე ანანასს და ვჭრით პატარა ნაჭრებად — ყოველ დილით, ახლად.</p>
+              <h2 class="step__title" data-text="process.s1.title">ვჭრით</h2>
+              <p class="step__text" data-text="process.s1.text">ვარჩევთ მწიფე ანანასს და ვჭრით პატარა ნაჭრებად — ყოველ დილით, ახლად.</p>
             </li>
             <li class="step">
               <span class="step__num">02</span>
-              <h2 class="step__title">ვაყრით</h2>
-              <p class="step__text">
+              <h2 class="step__title" data-text="process.s2.title">ვაყრით</h2>
+              <p class="step__text" data-text="process.s2.text">
                 ნაჭრებს ვაყრით Kool-Aid-ის ფხვნილს. ფხვნილი ანანასის წვენს ერევა და ფერსაც და გემოსაც ცვლის.
               </p>
             </li>
             <li class="step">
               <span class="step__num">03</span>
-              <h2 class="step__title">ვხურავთ</h2>
-              <p class="step__text">ვავსებთ საშუალო ქილას, ვხურავთ და ვაცივებთ. მზადაა — პირდაპირ შენთან.</p>
+              <h2 class="step__title" data-text="process.s3.title">ვხურავთ</h2>
+              <p class="step__text" data-text="process.s3.text">ვავსებთ ქილას, ვხურავთ და ვაცივებთ. მზადაა — პირდაპირ შენთან.</p>
             </li>
           </ol>
         </div>
@@ -120,13 +122,13 @@
       <!-- 4. MARQUEE -->
       <section class="marquee" aria-hidden="true">
         <div class="marquee__row" data-dir="1">
-          <div class="marquee__track">
+          <div class="marquee__track" data-words="marquee.row1">
             <span>ტკბილი</span><i>✦</i><span>მჟავე</span><i>✦</i><span>ცივი</span><i>✦</i><span>ტროპიკული</span><i>✦</i>
           </div>
         </div>
         <div class="marquee__row marquee__row--serif" data-dir="-1">
-          <div class="marquee__track">
-            <span>sweet</span><i>✦</i><span>sour</span><i>✦</i><span>tropical</span><i>✦</i><span data-brand="lower">pinepop</span><i>✦</i>
+          <div class="marquee__track" data-words="marquee.row2">
+            <span>sweet</span><i>✦</i><span>sour</span><i>✦</i><span>tropical</span><i>✦</i><span>pinepop</span><i>✦</i>
           </div>
         </div>
       </section>
@@ -134,8 +136,8 @@
       <!-- 5. FLAVOURS -->
       <section class="flavors" id="flavors" data-pose="-0.48,0,0.95,-0.5" data-pose-m="0,0.5,0.5,-0.5">
         <div class="flavors__inner">
-          <p class="eyebrow">გემოები</p>
-          <h2 class="section-title reveal">აირჩიე<br /><em>შენი ფერი</em></h2>
+          <p class="eyebrow" data-text="flavors.eyebrow">გემოები</p>
+          <h2 class="section-title reveal"><span data-text="flavors.title">აირჩიე</span><br /><em data-text="flavors.titleAccent">შენი ფერი</em></h2>
           <div class="flavor-list" id="flavorList" role="radiogroup" aria-label="გემო"></div>
         </div>
       </section>
@@ -143,8 +145,8 @@
       <!-- 6. SHOP -->
       <section class="shop" id="shop" data-pose="-0.46,-0.02,1,0.4" data-pose-m="0,0.5,0.5,0.4">
         <div class="shop__panel">
-          <p class="eyebrow">შეკვეთა</p>
-          <h2 class="section-title reveal">აიღე <em>ქილა</em></h2>
+          <p class="eyebrow" data-text="shop.eyebrow">შეკვეთა</p>
+          <h2 class="section-title reveal"><span data-text="shop.title">აიღე</span> <em data-text="shop.titleAccent">ქილა</em></h2>
           <ul class="shop__meta" id="shopMeta">
             <li>720 მლ</li>
             <li>ახლად დამზადებული</li>
@@ -153,12 +155,33 @@
           </ul>
           <div class="shop__rows" id="shopRows"></div>
           <div class="shop__total"><span>სულ</span><strong id="shopTotal">0 ₾</strong></div>
+          <p class="shop__closed" id="shopClosed" hidden></p>
           <button class="btn btn--accent btn--block" id="buyBtn" disabled>ყიდვა</button>
           <p class="shop__note" id="shopNote">მიწოდება თბილისში — უფასოდ, იმავე დღეს. გადახდა — მიტანისას (ნაღდი ან ბარათი).</p>
         </div>
       </section>
 
-      <!-- 7. FOOTER -->
+      <!-- 7. REVIEWS (removed when there are none) -->
+      <section class="reviews" id="reviews" data-pose="0.5,0.02,0.85,0.9" data-pose-m="1.4,0.3,0.5,0.9">
+        <div class="reviews__inner">
+          <p class="eyebrow" data-text="reviews.eyebrow">შეფასებები</p>
+          <h2 class="section-title reveal"><span data-text="reviews.title">რას ამბობენ</span> <em data-text="reviews.titleAccent">ჩვენზე</em></h2>
+          <p class="reviews__score" id="reviewScore"></p>
+          <div class="reviews__list" id="reviewList"></div>
+        </div>
+      </section>
+
+      <!-- 8. FAQ -->
+      <section class="faq" id="faq" data-pose="-0.5,0,0.85,-0.4" data-pose-m="1.4,0.3,0.5,-0.4">
+        <div class="faq__inner">
+          <p class="eyebrow" data-text="faq.eyebrow">კითხვები</p>
+          <h2 class="section-title reveal"><span data-text="faq.title">ხშირად</span> <em data-text="faq.titleAccent">გვეკითხებიან</em></h2>
+          <div class="faq__list" id="faqList"></div>
+          <button class="btn btn--ghost" type="button" data-open-track style="margin-top:24px">შეკვეთის სტატუსი →</button>
+        </div>
+      </section>
+
+      <!-- 9. FOOTER -->
       <footer class="footer" data-pose="0,0.42,0.6,0" data-pose-m="0,0.45,0.45,0">
         <div class="footer__giant" aria-hidden="true" data-brand="giant">PINEPOP</div>
         <div class="footer__cols">
@@ -173,11 +196,11 @@
           <div>
             <p class="eyebrow">მიწოდება</p>
             <p id="footerDelivery">თბილისში — უფასოდ, იმავე დღეს.</p>
+            <button class="footer__track" type="button" data-open-track>შეკვეთის სტატუსი →</button>
           </div>
         </div>
-        <p class="footer__legal">
-          © 2026 <span data-brand="full">PINEPOP</span>. Kool-Aid არის Kraft Heinz-ის რეგისტრირებული სავაჭრო ნიშანი;
-          <span data-brand="full">PINEPOP</span> მასთან დაკავშირებული არ არის.
+        <p class="footer__legal" data-text="footer.legal">
+          © 2026 PINEPOP. Kool-Aid არის Kraft Heinz-ის რეგისტრირებული სავაჭრო ნიშანი; PINEPOP მასთან დაკავშირებული არ არის.
         </p>
       </footer>
     </main>
@@ -190,7 +213,7 @@
 
         <form class="checkout" id="checkoutForm" novalidate>
           <p class="eyebrow">შეკვეთის გაფორმება</p>
-          <h3 class="checkout__title" id="checkoutTitle">თითქმის <em>მზადაა</em></h3>
+          <h3 class="checkout__title" id="checkoutTitle"><span data-text="checkout.title">თითქმის</span> <em data-text="checkout.titleAccent">მზადაა</em></h3>
           <ul class="checkout__summary" id="checkoutSummary"></ul>
 
           <label class="field">
@@ -201,9 +224,9 @@
             <span>ტელეფონი</span>
             <input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="5XX XX XX XX" required />
           </label>
-          <label class="field" id="cityField" hidden>
-            <span>ქალაქი</span>
-            <select name="city" id="citySelect"></select>
+          <label class="field" id="zoneField" hidden>
+            <span>მიწოდების ზონა</span>
+            <select name="zoneId" id="zoneSelect"></select>
           </label>
           <label class="field">
             <span id="addressLabel">მისამართი თბილისში</span>
@@ -214,19 +237,43 @@
             <textarea name="note" rows="2" maxlength="500"></textarea>
           </label>
 
-          <p class="checkout__pay"><span id="checkoutDelivery">🚚 მიწოდება თბილისში — უფასოდ, იმავე დღეს</span><br />💵 გადახდა მიტანისას — ნაღდი ან ბარათი</p>
+          <div class="coupon" id="coupon">
+            <input name="coupon" id="couponInput" placeholder="პრომოკოდი" maxlength="30" autocomplete="off" aria-label="პრომოკოდი" />
+            <button class="btn btn--ghost" type="button" id="couponApply">გამოყენება</button>
+          </div>
+          <p class="coupon__msg" id="couponMsg" role="status"></p>
+
+          <p class="checkout__pay"><span id="checkoutDelivery">🚚 მიწოდება თბილისში — უფასოდ, იმავე დღეს</span><br />💵 <span data-text="shop.payment">გადახდა — მიტანისას (ნაღდი ან ბარათი).</span></p>
           <p class="checkout__error" id="checkoutError" role="alert"></p>
-          <button class="btn btn--accent btn--block" type="submit" id="checkoutSubmit">შეკვეთის დადასტურება</button>
+          <button class="btn btn--accent btn--block" type="submit" id="checkoutSubmit" data-text="checkout.submit">შეკვეთის დადასტურება</button>
         </form>
 
         <div class="success" id="checkoutSuccess" hidden>
           <p class="eyebrow">შეკვეთა მიღებულია</p>
-          <h3 class="checkout__title">მადლობა! <em>🍍</em></h3>
+          <h3 class="checkout__title"><span data-text="checkout.thanks">მადლობა!</span> <em>🍍</em></h3>
           <p>შეკვეთის ნომერი</p>
           <p class="success__code" id="successCode"></p>
-          <p>მალე დაგიკავშირდებით მიწოდების დასაზუსტებლად.</p>
+          <p data-text="checkout.thanksText">მალე დაგიკავშირდებით მიწოდების დასაზუსტებლად.</p>
+          <p class="muted-small">სტატუსის ნახვა შეგიძლია გვერდის ბოლოს — „შეკვეთის სტატუსი“.</p>
           <button class="btn btn--ghost btn--block" data-close>დახურვა</button>
         </div>
+      </aside>
+    </div>
+
+    <!-- ORDER STATUS DRAWER -->
+    <div class="drawer" id="track" aria-hidden="true">
+      <div class="drawer__overlay" data-close></div>
+      <aside class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="trackTitle">
+        <button class="drawer__close" data-close aria-label="დახურვა">×</button>
+        <p class="eyebrow">შეკვეთის სტატუსი</p>
+        <h3 class="checkout__title" id="trackTitle">სად არის <em>ქილა?</em></h3>
+        <form class="track__form" id="trackForm" novalidate>
+          <label class="field"><span>შეკვეთის ნომერი</span><input name="code" placeholder="PP-XXXXX" autocomplete="off" required /></label>
+          <label class="field"><span>ტელეფონი, რომლითაც შეუკვეთე</span><input name="phone" type="tel" inputmode="tel" placeholder="5XX XX XX XX" required /></label>
+          <p class="checkout__error" id="trackError" role="alert"></p>
+          <button class="btn btn--accent btn--block" type="submit">შემოწმება</button>
+        </form>
+        <div id="trackResult" hidden></div>
       </aside>
     </div>
 

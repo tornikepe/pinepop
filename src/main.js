@@ -7,7 +7,8 @@ import './styles.css';
 import { PinepopScene } from './scene/Scene.js';
 import { initScroll } from './scroll.js';
 import { initShop, loadSite } from './shop.js';
-import { applySettings } from './content.js';
+import { applySite } from './content.js';
+import { initTrack } from './track.js';
 import { initTopo } from './topo.js';
 import { initCursor } from './cursor.js';
 import { initMenu } from './menu.js';
@@ -71,12 +72,14 @@ async function boot() {
     console.warn('საიტის მონაცემები ვერ ჩაიტვირთა — სერვერი ჩართულია?');
   }
   if (site) {
-    const { settings, products } = site;
-    applySettings(settings, products);
-    scene.setLabel(`${settings.brandBold}${settings.brandItalic}`, settings.jarSizeMl);
-    if (products.length) initShop({ products, settings, scene, lenis });
+    const { t, brand } = applySite(site);
+    scene.setLabel(brand, site.settings.jarSizeMl);
+    if (site.products.length) initShop({ site, t, scene, lenis });
+    // one cookieless visit per page load, for the admin's visitor count
+    fetch('/api/visit', { method: 'POST', keepalive: true }).catch(() => {});
   }
   if (!site?.products.length) scene.setFlavor('#ff2e4d', 'ალუბალი');
+  initTrack(lenis);
 
   scene.warmup();
   initScroll({ scene, topo });
