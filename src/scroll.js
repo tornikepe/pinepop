@@ -69,7 +69,7 @@ function processState(p) {
   };
 }
 
-export function initScroll({ scene, lenis, topo }) {
+export function initScroll({ scene, topo }) {
   const mobileQuery = window.matchMedia('(max-width: 860px)');
   const poses = createPoseTrack(mobileQuery);
 
@@ -92,24 +92,42 @@ export function initScroll({ scene, lenis, topo }) {
   ScrollTrigger.addEventListener('refresh', measure);
   mobileQuery.addEventListener('change', () => ScrollTrigger.refresh());
 
+  // Each step title rises letter by letter out of its own mask when it becomes active.
+  const stepChars = steps.map((el) => new SplitText(el.querySelector('.step__title'), { type: 'chars', mask: 'chars' }).chars);
+
   function setStep(i) {
     if (i === activeStep) return;
+    const first = activeStep === -1;
     activeStep = i;
     steps.forEach((el, k) => {
       el.classList.toggle('is-active', k === i);
       el.classList.toggle('is-past', k < i);
     });
     stepNum.textContent = String(i + 1).padStart(2, '0');
+    if (!first) {
+      gsap.fromTo(
+        stepChars[i],
+        { yPercent: 110 },
+        { yPercent: 0, duration: 0.9, stagger: 0.035, ease: 'expo.out', overwrite: true }
+      );
+    }
   }
   setStep(0);
 
   // Drive the 3D scene from the (Lenis-smoothed) scroll position every frame.
   let last = performance.now();
+  let lastY = window.scrollY;
   gsap.ticker.add(() => {
     const now = performance.now();
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
     const y = window.scrollY;
+
+    // scroll speed (works for wheel and touch alike), smoothed to -1…1
+    const speed = dt > 0 ? (y - lastY) / dt : 0;
+    lastY = y;
+    velocity += (Math.max(-1, Math.min(1, speed / 2500)) - velocity) * Math.min(1, dt * 6);
+    scene.state.vel = velocity;
 
     Object.assign(scene.state, poses.at(y));
     const p = clamp01((y - processTop) / processLen);
@@ -123,8 +141,11 @@ export function initScroll({ scene, lenis, topo }) {
   });
 
   initReveals();
-  initMarquee(lenis);
+  initMarquee();
 }
+
+// Shared, smoothed scroll speed (-1…1). Written by the scene ticker, read by the marquee.
+let velocity = 0;
 
 // ---------- text & UI reveals ----------
 
@@ -174,6 +195,21 @@ function initReveals() {
     });
   });
 
+  // flavour rows and shop rows slide in one after another
+  for (const [list, items] of [
+    ['#flavorList', '#flavorList .flavor'],
+    ['#shopRows', '.shop__meta li, #shopRows .row'],
+  ]) {
+    gsap.from(items, {
+      y: 36,
+      opacity: 0,
+      duration: 0.9,
+      stagger: 0.07,
+      ease: 'expo.out',
+      scrollTrigger: { trigger: list, start: 'top 88%' },
+    });
+  }
+
   // footer wordmark letters
   const footerWord = new SplitText('.footer__giant', { type: 'chars' });
   gsap.from(footerWord.chars, {
@@ -194,8 +230,8 @@ function initReveals() {
   });
 }
 
-// Marquee speed follows scroll velocity and flips with scroll direction.
-function initMarquee(lenis) {
+// Marquee speed follows scroll velocity, flips with scroll direction and leans (skews) into it.
+function initMarquee() {
   const rows = [...document.querySelectorAll('.marquee__row')].map((row) => {
     const track = row.querySelector('.marquee__track');
     // clone enough copies to cover wide screens
@@ -204,16 +240,17 @@ function initMarquee(lenis) {
   });
   let direction = 1;
   gsap.ticker.add((_t, deltaMs) => {
-    const v = lenis ? lenis.velocity : 0;
-    if (v > 0.1) direction = 1;
-    else if (v < -0.1) direction = -1;
-    const speed = (40 + Math.min(600, Math.abs(v) * 30)) * (deltaMs / 1000);
+    const v = velocity;
+    if (v > 0.02) direction = 1;
+    else if (v < -0.02) direction = -1;
+    const speed = (40 + Math.abs(v) * 900) * (deltaMs / 1000);
+    const skew = (-v * 9).toFixed(2);
     for (const r of rows) {
       const w = r.tracks[0].offsetWidth;
       if (!w) continue;
       r.x -= speed * r.dir * direction;
       r.x = ((r.x % w) - w) % w;
-      for (const t of r.tracks) t.style.transform = `translate3d(${r.x}px,0,0)`;
+      for (const t of r.tracks) t.style.transform = `translate3d(${r.x}px,0,0) skewX(${skew * r.dir}deg)`;
     }
   });
 }

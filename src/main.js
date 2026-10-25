@@ -10,6 +10,7 @@ import { initShop, loadSite } from './shop.js';
 import { applySettings } from './content.js';
 import { initTopo } from './topo.js';
 import { initCursor } from './cursor.js';
+import { initMenu } from './menu.js';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -41,12 +42,15 @@ if (lenis) {
   lenis.stop();
 }
 
+const menu = initMenu(lenis);
+
 document.querySelectorAll('[data-scroll]').forEach((a) => {
   a.addEventListener('click', (e) => {
     const target = document.querySelector(a.getAttribute('href'));
     if (!target) return;
     e.preventDefault();
-    if (lenis) lenis.scrollTo(target, { duration: 1.6 });
+    menu.close();
+    if (lenis) lenis.scrollTo(target, { duration: 1.6, force: true });
     else target.scrollIntoView();
   });
 });
@@ -57,6 +61,7 @@ async function boot() {
   await Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]);
 
   const scene = new PinepopScene(document.getElementById('webgl'), { mobile });
+  if (location.hostname === 'localhost') window.__pinepop = scene; // handy for poking at the scene from devtools
   const topo = initTopo(document.getElementById('topo'));
 
   let site = null;
@@ -74,7 +79,7 @@ async function boot() {
   if (!site?.products.length) scene.setFlavor('#ff2e4d', 'ალუბალი');
 
   scene.warmup();
-  initScroll({ scene, lenis, topo });
+  initScroll({ scene, topo });
   initCursor(document.getElementById('cursor'));
   ScrollTrigger.refresh();
 

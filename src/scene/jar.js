@@ -41,21 +41,39 @@ function glassProfile() {
   return p;
 }
 
+// One tidbit: a wedge cut from a pineapple ring, with a curved outer edge.
+// Vertex colours shade it paler towards the core, like the real fruit.
 function chunkGeometry() {
+  const ri = 0.07;
+  const ro = 0.25;
+  const a = 0.78;
   const shape = new THREE.Shape();
-  shape.moveTo(-0.045, -0.075);
-  shape.lineTo(0.045, -0.075);
-  shape.lineTo(0.095, 0.075);
-  shape.lineTo(-0.095, 0.075);
-  shape.closePath();
+  shape.moveTo(Math.cos(-a / 2) * ri, Math.sin(-a / 2) * ri);
+  shape.lineTo(Math.cos(-a / 2) * ro, Math.sin(-a / 2) * ro);
+  shape.absarc(0, 0, ro, -a / 2, a / 2, false);
+  shape.lineTo(Math.cos(a / 2) * ri, Math.sin(a / 2) * ri);
+  shape.absarc(0, 0, ri, a / 2, -a / 2, true);
   const geo = new THREE.ExtrudeGeometry(shape, {
     depth: 0.1,
     bevelEnabled: true,
-    bevelThickness: 0.028,
-    bevelSize: 0.026,
+    bevelThickness: 0.026,
+    bevelSize: 0.022,
     bevelSegments: 3,
-    curveSegments: 1,
+    curveSegments: 8,
   });
+
+  const pos = geo.attributes.position;
+  const colors = new Float32Array(pos.count * 3);
+  // near-neutral so it shades every flavour colour without tinting blue or purple green
+  const core = new THREE.Color(1, 1, 0.97);
+  const rind = new THREE.Color(0.8, 0.77, 0.72);
+  const c = new THREE.Color();
+  for (let i = 0; i < pos.count; i++) {
+    const t = Math.min(1, Math.max(0, (Math.hypot(pos.getX(i), pos.getY(i)) - ri) / (ro - ri)));
+    c.copy(core).lerp(rind, Math.pow(t, 1.6));
+    colors.set([c.r, c.g, c.b], i * 3);
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   geo.center();
   geo.computeVertexNormals();
   return geo;
@@ -99,9 +117,10 @@ export class Jar {
     this.body = new THREE.Group(); // spins
     this.group.add(this.body);
 
-    this.flavor = { color: new THREE.Color('#ff2e4d'), name: '' };
+    // `color` eases towards `target` every frame, so flavour changes blend instead of snapping
+    this.flavor = { color: new THREE.Color('#ff2e4d'), target: new THREE.Color('#ff2e4d'), name: '' };
+    this._lastColor = new THREE.Color(-1, -1, -1);
     this.label = { brand: 'PINEPOP', sizeMl: 720 };
-    this._flavorKey = '';
     this._lastCoat = -1;
     this._lastFill = -1;
 
@@ -118,15 +137,16 @@ export class Jar {
       new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
         metalness: 0,
-        roughness: 0.03,
+        roughness: 0.015,
         transmission: 1,
-        thickness: 0.35,
+        thickness: 0.22,
         ior: 1.5,
         clearcoat: 1,
-        clearcoatRoughness: 0.04,
-        envMapIntensity: 1.25,
-        attenuationColor: new THREE.Color('#f2fff6'),
-        attenuationDistance: 4,
+        clearcoatRoughness: 0.02,
+        specularIntensity: 1,
+        envMapIntensity: 1.6,
+        attenuationColor: new THREE.Color('#effff4'),
+        attenuationDistance: 6,
         side: THREE.DoubleSide,
       })
     );
@@ -161,7 +181,7 @@ export class Jar {
     const g = c.getContext('2d');
     const W = c.width;
     const H = c.height;
-    const accent = '#' + this.flavor.color.getHexString(THREE.SRGBColorSpace);
+    const accent = '#' + this.flavor.target.getHexString(THREE.SRGBColorSpace);
 
     g.fillStyle = '#f4ecd8';
     g.fillRect(0, 0, W, H);
@@ -220,17 +240,20 @@ export class Jar {
 
     const mat = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
-      roughness: 0.48,
-      sheen: 0.6,
+      vertexColors: true,
+      roughness: 0.38,
+      // powder-dusted but juicy: a soft sheen plus a thin wet clearcoat
+      sheen: 0.45,
       sheenRoughness: 0.6,
       sheenColor: new THREE.Color('#ffffff').multiplyScalar(0.25),
-      clearcoat: 0.35,
-      clearcoatRoughness: 0.35,
+      clearcoat: 0.65,
+      clearcoatRoughness: 0.22,
     });
     this.chunks = new THREE.InstancedMesh(chunkGeometry(), mat, count);
     this.chunks.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
 
-    const maxR = (y) => (y > 0.72 ? 0.66 : y < BOTTOM + 0.16 ? 0.74 : 0.82);
+    // tidbits are ~0.2 long, so keep their centres far enough in that none pokes through the glass
+    const maxR = (y) => (y > 0.72 ? 0.6 : y < BOTTOM + 0.16 ? 0.68 : 0.76);
     const yMin = BOTTOM + 0.12;
     const yMax = 0.88;
     this.items = [];
@@ -238,7 +261,7 @@ export class Jar {
       const y = yMin + Math.random() * (yMax - yMin);
       const r = maxR(y) * (1 - 0.5 * Math.random() ** 2.2);
       const a = Math.random() * Math.PI * 2;
-      const s = 0.85 + Math.random() * 0.45;
+      const s = 0.85 + Math.random() * 0.35;
       const yellow = YELLOWS[(Math.random() * YELLOWS.length) | 0].clone();
       this.items.push({
         pos: new THREE.Vector3(Math.cos(a) * r, y, Math.sin(a) * r),
@@ -285,14 +308,19 @@ export class Jar {
     this.body.add(this.powder);
   }
 
-  setFlavor(hex, name) {
-    this.flavor.color.set(hex);
+  setFlavor(hex, name, { instant = false } = {}) {
+    this.flavor.target.set(hex);
+    if (instant) this.flavor.color.copy(this.flavor.target);
     this.flavor.name = name;
     this.drawLabel();
   }
 
-  update(state, time) {
+  update(state, time, dt) {
     const { lid, coat, fill, powder } = state;
+    const { color, target } = this.flavor;
+    color.lerp(target, 1 - Math.exp(-dt * 4.5));
+    // snap at the end so the per-chunk recolouring below can stop
+    if (Math.abs(color.r - target.r) + Math.abs(color.g - target.g) + Math.abs(color.b - target.b) < 0.003) color.copy(target);
 
     // lid lifts up and to the side
     this.lid.position.set(lid * 1.7, LID_Y + lid * 0.7, lid * 0.3);
@@ -305,8 +333,7 @@ export class Jar {
     this.coreMat.color.copy(YELLOWS[2]).lerp(this._c.copy(fc).multiplyScalar(0.7), coat * 0.85);
 
     // chunk colours (only when something changed)
-    const key = fc.getHex();
-    if (Math.abs(coat - this._lastCoat) > 0.001 || key !== this._flavorKey) {
+    if (Math.abs(coat - this._lastCoat) > 0.001 || !this._lastColor.equals(fc)) {
       fc.getHSL(this._hsl);
       for (let i = 0; i < this.items.length; i++) {
         const it = this.items[i];
@@ -316,7 +343,7 @@ export class Jar {
       }
       this.chunks.instanceColor.needsUpdate = true;
       this._lastCoat = coat;
-      this._flavorKey = key;
+      this._lastColor.copy(fc);
     }
 
     // chunk transforms: dropping in on fill, bobbing while the lid is open

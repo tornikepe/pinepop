@@ -31,10 +31,26 @@
         <a href="#flavors" data-scroll>გემოები</a>
         <a href="#shop" data-scroll>შეკვეთა</a>
       </nav>
-      <a class="nav__buy" href="#shop" data-scroll>
-        ყიდვა <span class="nav__count" id="navCount">0</span>
-      </a>
+      <div class="nav__right">
+        <a class="nav__buy" href="#shop" data-scroll data-magnetic>
+          ყიდვა <span class="nav__count" id="navCount">0</span>
+        </a>
+        <button class="nav__menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu" aria-label="მენიუ">
+          <span></span><span></span>
+        </button>
+      </div>
     </header>
+
+    <!-- phone menu -->
+    <div class="menu" id="menu" aria-hidden="true">
+      <nav class="menu__links" aria-label="მენიუ">
+        <a href="#top" data-scroll><span>მთავარი</span></a>
+        <a href="#process" data-scroll><span>პროცესი</span></a>
+        <a href="#flavors" data-scroll><span>გემოები</span></a>
+        <a href="#shop" data-scroll><span>შეკვეთა</span></a>
+      </nav>
+      <p class="menu__foot">ანანასი × Kool-Aid · <span id="menuDelivery">მიწოდება თბილისში</span></p>
+    </div>
 
     <main>
       <!-- 1. HERO -->
@@ -46,8 +62,8 @@
             ახლად დაჭრილი ანანასი, Kool-Aid-ის ფხვნილში ამოვლებული. ტკბილი, მჟავე და სრულიად ახალი გემო — ერთ ქილაში.
           </p>
           <div class="hero__actions">
-            <a class="btn btn--accent" href="#shop" data-scroll>შეუკვეთე ახლავე</a>
-            <a class="btn btn--ghost" href="#process" data-scroll>როგორ მზადდება</a>
+            <a class="btn btn--accent" href="#shop" data-scroll data-magnetic>შეუკვეთე ახლავე</a>
+            <a class="btn btn--ghost" href="#process" data-scroll data-magnetic>როგორ მზადდება</a>
           </div>
         </div>
         <div class="hero__scroll"><span></span>გადაახვიე</div>
@@ -72,7 +88,7 @@
       </section>
 
       <!-- 3. PROCESS (sticky, scroll-driven) -->
-      <section class="process" id="process" data-pose="0.42,-0.04,1.05,0" data-pose-m="0,0.36,0.56,0">
+      <section class="process" id="process" data-pose="0.42,-0.04,1.05,0" data-pose-m="0,0.28,0.56,0">
         <div class="process__sticky">
           <div class="process__head">
             <p class="eyebrow">პროცესი</p>
@@ -116,7 +132,7 @@
       </section>
 
       <!-- 5. FLAVOURS -->
-      <section class="flavors" id="flavors" data-pose="-0.48,0,0.95,-0.5" data-pose-m="0,0.58,0.52,-0.5">
+      <section class="flavors" id="flavors" data-pose="-0.48,0,0.95,-0.5" data-pose-m="0,0.5,0.5,-0.5">
         <div class="flavors__inner">
           <p class="eyebrow">გემოები</p>
           <h2 class="section-title reveal">აირჩიე<br /><em>შენი ფერი</em></h2>
@@ -125,7 +141,7 @@
       </section>
 
       <!-- 6. SHOP -->
-      <section class="shop" id="shop" data-pose="-0.46,-0.02,1,0.4" data-pose-m="0,0.58,0.52,0.4">
+      <section class="shop" id="shop" data-pose="-0.46,-0.02,1,0.4" data-pose-m="0,0.5,0.5,0.4">
         <div class="shop__panel">
           <p class="eyebrow">შეკვეთა</p>
           <h2 class="section-title reveal">აიღე <em>ქილა</em></h2>

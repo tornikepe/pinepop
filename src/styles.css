@@ -250,8 +250,112 @@ em {
   transition: transform 0.3s var(--ease);
 }
 
-.nav__buy:hover {
-  transform: scale(1.05);
+.nav__buy:active,
+.btn:active:not(:disabled) {
+  scale: 0.96;
+}
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* phone menu button: two lines that turn into an × */
+.nav__menu {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  cursor: pointer;
+}
+
+.nav__menu span {
+  position: absolute;
+  left: 13px;
+  right: 13px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--bg);
+  transition: transform 0.5s var(--ease);
+}
+
+.nav__menu span:first-child {
+  transform: translateY(-4px);
+}
+
+.nav__menu span:last-child {
+  transform: translateY(4px);
+}
+
+body.menu-open .nav__menu span:first-child {
+  transform: rotate(45deg);
+}
+
+body.menu-open .nav__menu span:last-child {
+  transform: rotate(-45deg);
+}
+
+body.menu-open .nav__logo {
+  color: var(--bg);
+}
+
+body.menu-open .nav__logo em {
+  color: var(--bg);
+}
+
+body.menu-open .nav__buy {
+  background: var(--bg);
+  color: var(--pine);
+}
+
+body.menu-open .nav__count {
+  background: var(--pine);
+  color: var(--bg);
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 96px var(--pad) calc(var(--pad) + env(safe-area-inset-bottom));
+  background: var(--pine);
+  color: var(--bg);
+  clip-path: circle(0% at calc(100% - 38px) 40px);
+  visibility: hidden;
+}
+
+.menu__links {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu__links a {
+  display: block;
+  overflow: hidden;
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-stretch: 62%;
+  font-size: clamp(56px, 17vw, 120px);
+  line-height: 1;
+  padding-bottom: 0.06em;
+  border-bottom: 1px solid rgba(17, 21, 13, 0.18);
+}
+
+.menu__links a span {
+  display: inline-block;
+}
+
+.menu__foot {
+  margin: 24px 0 0;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .nav__count {
@@ -323,10 +427,6 @@ em {
     background 0.35s,
     color 0.35s,
     opacity 0.3s;
-}
-
-.btn:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.02);
 }
 
 .btn:disabled {
@@ -1125,6 +1225,41 @@ em {
     display: none;
   }
 
+  .nav__menu {
+    display: block;
+  }
+
+  /* text sits over the 3D jar on phones, so give the flavour rows a backing */
+  .flavor {
+    margin-bottom: 8px;
+    padding: 16px;
+    border: 1px solid var(--ink-faint);
+    border-radius: 20px;
+    background: rgba(24, 30, 19, 0.82);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .flavor:hover,
+  .flavor[aria-checked='true'] {
+    padding-left: 16px;
+    border-color: var(--c);
+  }
+
+  .flavor-list {
+    border-top: 0;
+  }
+
+  .flavor__dot {
+    width: 36px;
+    height: 36px;
+  }
+
+  .step__text,
+  .intro__statement {
+    text-shadow: 0 2px 18px rgba(17, 21, 13, 0.9);
+  }
+
   .hero__giant {
     inset: 0 0 20%;
     font-size: 30vw;
@@ -1169,7 +1304,7 @@ em {
 
   .flavors,
   .shop {
-    padding-top: 36vh;
+    padding-top: 38vh;
   }
 
   .flavors__inner,

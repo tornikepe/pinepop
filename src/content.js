@@ -68,6 +68,7 @@ export function applySettings(settings, products) {
     .join('');
   set('shopNote', `მიწოდება ${delivery.line}. გადახდა — მიტანისას (ნაღდი ან ბარათი).`);
   set('checkoutDelivery', `🚚 მიწოდება ${delivery.line}`);
+  set('menuDelivery', `მიწოდება ${delivery.line}`);
 
   // footer
   set('footerDelivery', `${delivery.line}. სხვა ქალაქებში ჯერ არ ვაწვდით.`);

@@ -139,12 +139,14 @@ Changes appear on the site on the next page load.
 
 All of it is in `src/scene/`, plain Three.js, no loaders.
 
+- **The light** (`studio.js`) is a dark photo studio with a few bright softboxes, baked into
+  an environment map — that is what gives the glass its vertical highlight streaks.
 - **The jar** (`jar.js`) is a lathed profile with a physically based glass material
   (transmission, IOR 1.5, clearcoat). The label is a canvas texture redrawn whenever the
   flavour, the brand or the jar size changes. The lid is a cylinder with a knurled edge pushed
   out of its vertices.
-- **The chunks** are one `InstancedMesh` of bevelled wedges — several hundred of them in a
-  single draw call. Each has its own drop-in timing, so the jar can empty and refill
+- **The chunks** are one `InstancedMesh` of bevelled tidbits cut from a pineapple ring, paler
+  towards the core — several hundred of them in a single draw call. Each has its own drop-in timing, so the jar can empty and refill
   bottom-up, and its own share of powder coating, so the colour shift looks uneven and real.
 - **The powder** is a point cloud that spirals down into the open jar during step two.
 - **The pineapples** (`pineapple.js`) are a lathed body whose surface is pushed out in a spiral
@@ -155,6 +157,9 @@ All of it is in `src/scene/`, plain Three.js, no loaders.
   screen and eases to the next one in between. The process section is a CSS-sticky block whose
   progress drives lid, fill, powder and coating as pure functions — scrolling back up replays
   it exactly.
+
+Changing the flavour blends the colour over half a second while the jar makes one quick turn.
+Scroll speed tilts the jar, spins the pineapples faster and skews the marquee.
 
 Smooth scrolling is Lenis on the GSAP ticker; text reveals use GSAP SplitText and
 ScrollTrigger. The topographic background is marching squares over value noise, drawn once
@@ -227,11 +232,13 @@ src/
   scroll.js             scroll → jar poses, process scene, text animations, marquee
   shop.js               flavour picker, quantities, checkout drawer
   topo.js               topographic background
-  cursor.js             custom cursor
+  cursor.js             custom cursor, magnetic buttons
+  menu.js               phone menu
   styles.css
   scene/
     Scene.js            renderer, camera, lights, floating pineapples
     jar.js              glass jar, label, lid, chunks, powder
+    studio.js           studio light environment, glow texture
     pineapple.js        whole pineapple geometry
 server/
   index.js              Express app, public API, Vite in dev / static in prod
